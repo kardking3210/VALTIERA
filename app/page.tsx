@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowRight, ArrowUpRight, Check, X } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, X } from "lucide-react";
 import styles from "./landing.module.css";
 
 const heroVideo = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260423_161253_c72b1869-400f-45ed-ac0c-52f68c2ed5bd.mp4";
@@ -54,7 +54,7 @@ export default function Home() {
       <header className={styles.navbar}>
         <Link className={styles.brand} href="#top" aria-label="VALTIERA home"><BrandLogo/><span>VALTIERA</span></Link>
         <nav className={styles.navLinks} aria-label="Main navigation">
-          <Link href="#ecosystem">Network</Link><Link href="#information">Platform</Link><Link href="/app/quant">Research</Link><Link href="/app/community">Community</Link><Link href="/app/academy">Academy</Link>
+          <Link href="#ecosystem">Network</Link><Link href="#information">Platform</Link><Link href="/overview">Overview</Link><Link href="/app/quant">Research</Link><Link href="/app/community">Community</Link><Link href="/app/academy">Academy</Link>
         </nav>
         <Link className={styles.navCta} href="/app">Explore VALTIERA <ArrowUpRight size={15}/></Link>
       </header>
@@ -88,6 +88,48 @@ export default function Home() {
           <Link className={`${styles.featureCard} ${styles.purpleCard}`} href="/app/markets"><span>02 / DATA &amp; RESEARCH</span><h3>Market Intelligence</h3><p>Understand market movements through financial data, market analysis and quantitative research.</p><b>Explore markets <ArrowUpRight size={16}/></b><div className={styles.cardOrb} aria-hidden="true"/></Link>
           <Link className={`${styles.featureCard} ${styles.purpleCard}`} href="/app/predictions"><span>03 / SCENARIO RESEARCH</span><h3>Prediction Arena</h3><p>Challenge market assumptions, explore possible outcomes and evaluate predictions through simulated markets.</p><b>Explore scenarios <ArrowUpRight size={16}/></b><div className={`${styles.cardOrb} ${styles.cardOrbAlt}`} aria-hidden="true"/></Link>
         </div>
+        <section className={styles.insideSection} aria-labelledby="inside-valtiera-title">
+          <div className={styles.insideIntro}>
+            <span className={styles.sectionIndex}>02 / HOW THE PLATFORM WORKS</span>
+            <h2 id="inside-valtiera-title">Inside <em>VALTIERA.</em></h2>
+            <div><h3>One platform. Multiple layers of financial intelligence.</h3><p>VALTIERA brings together financial communities, prediction-based analysis and quantitative research to create a structured environment for understanding financial markets.</p></div>
+          </div>
+          <div className={styles.overviewCards}>
+            {[
+              { n:"01", title:"Collective Intelligence", text:"Discuss markets, publish investment theses, challenge opinions, participate in polls and share research.", href:"/app/community", label:"Explore the community", dark:false },
+              { n:"02", title:"Decision Arena", text:"Create financial polls, compare bullish and bearish arguments, vote on opportunities and observe changes in community sentiment.", href:"/app/polls", label:"Enter the Decision Arena", dark:true },
+              { n:"03", title:"Prediction Arena", text:"Explore possible market outcomes through simulated prediction markets and virtual credits with no cash value.", href:"/app/predictions", label:"Explore simulated markets", dark:true },
+              { n:"04", title:"Market Intelligence", text:"Explore supported financial markets, provider charts, market movements and research context.", href:"/app/markets", label:"Explore market charts", dark:false },
+              { n:"05", title:"Quantitative Research", text:"Study independent methods for volatility, momentum, correlations, market conditions and risk. Backtest execution is not currently available.", href:"/app/quant", label:"Explore research", dark:true },
+              { n:"06", title:"Virtual Portfolio", text:"Test hypothetical allocations, monitor simulated prediction positions and understand practice ledger outcomes.", href:"/app/portfolio", label:"View the virtual ledger", dark:false },
+            ].map((card) => <Link key={card.n} href={card.href} className={`${styles.overviewCard} ${card.dark ? styles.overviewCardDark : ""}`}>
+              <span className={styles.overviewNumber}>{card.n} <i>PLATFORM LAYER</i></span>
+              <span className={styles.overviewGraphic} aria-hidden="true"><i/><i/><i/></span>
+              <span className={styles.overviewCardCopy}><b>{card.title}</b><span>{card.text}</span></span>
+              <span className={styles.overviewCardLink}>{card.label}<ArrowUpRight size={15}/></span>
+            </Link>)}
+          </div>
+          <div className={styles.intelligenceFlow}>
+            <div className={styles.flowHeading}><span>INDEPENDENT INPUTS · SHARED CONTEXT</span><p>Community opinion and quantitative analysis remain separate inputs. Poll popularity does not trigger automatic trading.</p></div>
+            <div className={styles.flowLanes}>
+              <div className={styles.flowLane}>
+                <span className={styles.flowLaneLabel}>COLLECTIVE INTELLIGENCE</span>
+                <div className={styles.flowStep}><i>01</i><b>Community Discussions</b><small>Theses, questions and debate</small></div><ArrowDown className={styles.flowArrow} size={17}/>
+                <div className={styles.flowStep}><i>02</i><b>Decision Arena</b><small>Votes and opposing arguments</small></div><ArrowDown className={styles.flowArrow} size={17}/>
+                <div className={styles.flowStep}><i>03</i><b>Community Sentiment</b><small>An aggregate of expressed views</small></div>
+              </div>
+              <div className={styles.flowLane}>
+                <span className={styles.flowLaneLabel}>QUANTITATIVE INTELLIGENCE</span>
+                <div className={styles.flowStep}><i>01</i><b>Market Data</b><small>Provider-supplied context</small></div><ArrowDown className={styles.flowArrow} size={17}/>
+                <div className={styles.flowStep}><i>02</i><b>Quantitative Research</b><small>Methods, assumptions and risk</small></div><ArrowDown className={styles.flowArrow} size={17}/>
+                <div className={styles.flowStep}><i>03</i><b>Independent Analysis</b><small>Evaluated apart from the crowd</small></div>
+              </div>
+            </div>
+            <div className={styles.flowMerge} aria-hidden="true"><span/><ArrowDown size={18}/><span/></div>
+            <div className={styles.flowDashboard}><span>SHARED RESEARCH VIEW</span><b>VALTIERA Intelligence Dashboard</b><small>Evidence, provenance and uncertainty presented together · no automatic execution</small></div>
+          </div>
+          <Link className={styles.overviewCta} href="/overview">Explore the Complete Overview <ArrowRight size={17}/></Link>
+        </section>
       </div>
     </section>
 
@@ -128,3 +170,4 @@ function RegistrationModal({close}:{close:()=>void}) {
   {step===3&&<div className="review"><div><span>NAME</span><b>{form.full_name}</b></div><div><span>EMAIL</span><b>{form.email}</b></div><div><span>COUNTRY</span><b>{form.country}</b></div><div><span>AREA OF INTEREST</span><b>{form.interest_category}</b></div><div className="review-note">This is an expression of interest only, not an offer of securities, invitation to deposit funds or commitment to provide investment services.</div><label className="check-label"><input type="checkbox" checked={form.consent_privacy} onChange={e=>set("consent_privacy",e.target.checked)}/><span>I agree to the <a href="/privacy" target="_blank">Privacy Policy</a> and consent to VALTIERA processing my information to respond to my enquiry. <em>*</em></span></label><label className="check-label optional"><input type="checkbox" checked={form.consent_marketing} onChange={e=>set("consent_marketing",e.target.checked)}/><span>I’d like to receive occasional updates about VALTIERA. (Optional)</span></label></div>}
   {error&&<p className="form-error" role="alert">{error}</p>}<div className="form-actions">{step>1?<button className="back" onClick={()=>{setError("");setStep(s=>s-1)}}>Back</button>:<span/>}{step<3?<button className="button dark" onClick={next}>Continue <ArrowRight size={15}/></button>:<button className="button dark" disabled={busy} onClick={submit}>{busy?"Submitting…":"Submit registration"} <ArrowRight size={15}/></button>}</div></>}</div></div>
 }
+

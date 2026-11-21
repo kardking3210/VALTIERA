@@ -45,6 +45,45 @@ html{scroll-padding-top:32px}body{background:#f8f9fa;font-family:Inter,Arial,san
 @media(min-width:768px) and (max-width:1199px){.hero-spacer{height:30vh}.brand-card{width:min(1100px,calc(100% - 52px));top:24px}.brand-card-main{grid-template-columns:220px 1fr;gap:20px;padding:22px 25px}.hero{padding-top:350px}}
 @media(max-width:767px){.hero-spacer{height:50vh;min-height:210px}.hero{height:100svh;min-height:780px;padding:390px 7% 55px;background-position:center}.brand-card{top:12px;width:calc(100% - 24px);border-radius:18px}.brand-card-main{display:block;padding:12px 15px}.brand-card-top{display:flex;justify-content:space-between;align-items:center}.brand-card-logo{font-size:22px;gap:10px}.brand-card-mark{width:40px;height:40px;padding:8px;border-radius:10px}.card-menu-toggle{display:grid;place-items:center;width:40px;height:40px;border:1px solid #e7ece8;border-radius:11px;background:white;color:#28372d}.brand-card-links{display:none;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:18px 0 3px}.brand-card-links.open{display:grid}.brand-card-links>div{gap:10px}.brand-card-links b{font-size:9px}.brand-card-links a,.brand-card-links button{font-size:10px}.brand-card-footer{min-height:48px;padding:8px 15px;font-size:9px}.brand-socials a{width:32px;height:32px}.brand-socials svg{width:16px;height:16px}.hero-inner{grid-template-columns:1fr}.hero-copy{padding:0}.hero h1{font-size:clamp(42px,11vw,64px);margin:18px 0}.hero-desc{font-size:13px}.hero-art{display:none}.hero-foot{font-size:8px}.actions{gap:17px;flex-wrap:wrap}.brand-card-links.open{border-top:1px solid #edf0ed;margin-top:12px}.terminal-sidebar nav a{font-size:9px}.admin-content{padding:18px}.admin-header{padding:14px}}
 @media(prefers-reduced-motion:reduce){.brand-card,.brand-socials a,.brand-card-links a{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+/* VALTIERA's shared Halo-inspired design tokens and authentication surfaces. */
+:root{--cream:#f5f5f5;--lemon:#f0f0f0;--peach:#f0f0f0;--sage:#f0f0f0;--rose:#f0f0f0;--ink:#000;--midnight:#2b2644;--navy:#2b2644;--slate:#333;--gold:#2b2644;--ivory:#fff;--muted:rgba(0,0,0,.64);--sans:"TT Norms Pro",Inter,"Helvetica Neue",Arial,sans-serif;--display:"TT Norms Pro",Inter,"Helvetica Neue",Arial,sans-serif}
+body{background:#f5f5f5;color:#000;font-family:"TT Norms Pro",Inter,"Helvetica Neue",Arial,sans-serif}
+.app-official-logo{display:block;width:40px;height:40px;flex:none;object-fit:contain}
+.auth-page,.admin-shell{background:#f5f5f5;color:#000}
+.auth-back{color:rgba(0,0,0,.66)}
+.auth-card,.admin-shell .login-card{border:1px solid #e5e5e5;border-radius:18px;background:#fff;box-shadow:0 12px 40px rgba(0,0,0,.045)}
+.auth-card h1,.admin-shell h1{font-family:"TT Norms Pro",Inter,"Helvetica Neue",Arial,sans-serif;color:#000;letter-spacing:-.06em}
+.auth-card p,.auth-card small,.auth-switch{color:rgba(0,0,0,.62)}
+.auth-card .terminal-brand{display:flex;align-items:center;gap:11px;color:#000;font-size:13px;font-weight:600;letter-spacing:.16em}
+.auth-card label,.admin-shell label{color:rgba(0,0,0,.7)}
+.auth-card input,.admin-shell input{border:1px solid #dedede;border-radius:8px;background:#fff;color:#000}
+.auth-card input:focus,.admin-shell input:focus{outline:2px solid rgba(43,38,68,.18);border-color:#2b2644}
+.auth-card .button.dark,.admin-shell .button.dark{border-radius:9px;background:#000;color:#fff}
+.auth-card .button.dark:hover,.admin-shell .button.dark:hover{background:#333}
+.auth-switch a,.auth-back:hover,.admin-shell>a{color:#2b2644}
+.auth-error,.auth-card p.auth-error,.admin-error{color:#a13b3b}
+.auth-success,.auth-card p.auth-success{color:#28724d}
+.admin-page{background:#f5f5f5;color:#000;font-family:"TT Norms Pro",Inter,"Helvetica Neue",Arial,sans-serif}
+.admin-header{background:#f5f5f5;color:#000;border-bottom:1px solid #e5e5e5}
+.admin-header>span{color:rgba(0,0,0,.5)}
+.admin-header button{border-color:#e5e5e5;border-radius:8px;background:#fff;color:#000}
+.admin-content{max-width:1320px}
+.admin-title h1,.detail-panel h2{color:#000;font-family:"TT Norms Pro",Inter,"Helvetica Neue",Arial,sans-serif}
+.admin-title p,.admin-foot,.admin-page .eyebrow{color:rgba(0,0,0,.56)}
+.admin-stats>div,.admin-tools label,.admin-tools select,.admin-tools>button,.admin-table-wrap,.detail-panel{border-color:#e5e5e5;border-radius:12px;background:#fff;color:#000;box-shadow:0 6px 24px rgba(0,0,0,.035)}
+.admin-stats svg,.admin-stats small,.detail-button,.detail-email{color:#2b2644}
+.admin-stats b{color:#000}
+.admin-tools input,.admin-table select,.detail-status select{background:#fff;color:#000}
+.admin-table-wrap th,.admin-table-wrap td,.detail-panel dl>div{border-color:#e5e5e5}
+.admin-table-wrap th{color:rgba(0,0,0,.52)}
+.admin-table-wrap td{color:rgba(0,0,0,.68)}
+.admin-table-wrap td b{color:#000}
+.detail-backdrop{background:rgba(0,0,0,.42)}
+.detail-panel{border-radius:0;box-shadow:-15px 0 50px rgba(0,0,0,.12)}
+.detail-panel dt,.detail-panel dd{color:rgba(0,0,0,.62)}
+.detail-close,.detail-status select{border-color:#e5e5e5;border-radius:8px;background:#fff;color:#000}
+.detail-button{border-color:#e5e5e5;border-radius:7px;background:#fff}
+.admin-page .button.dark{border-radius:9px;background:#000;color:#fff}
+@media(max-width:700px){.auth-card{border-radius:16px}.admin-header{background:#f5f5f5}}
 /* Cohesive section rhythm for the full landing experience */
 .intro,.infrastructure,.about{background:#f8f9fa}.platform,.academy{background:#f0f4f0}.platform .section-head h2 em,.intro h2 em,.section h2 em{color:#66806a}.platform .section-head h2 em{color:#66806a}.pillar-grid{border-color:#dfe7e0}.pillar{border-bottom-color:#dfe7e0}.pillar:hover{background:#e8f0e9;border-color:#cddbd0}.pillar-top>span,.pillar-icon,.pillar li svg{color:#66806a}.pillar-icon{border-color:#d9e3db}.platform-cta{border-color:#d9e3db}.button.outline{border-color:#7e9983;color:#314b36}.button.outline:hover{background:#e4ede5;color:#26392a}.community{background:linear-gradient(120deg,#17231c,#22372a 72%,#2d4735)}.poll-card,.article{border:1px solid #e5eae6;border-radius:18px;box-shadow:0 12px 36px #15251a12}.article{overflow:hidden;background:#fff;padding:0 0 22px}.article>small,.article>h3,.article>p,.article>a{margin-left:20px;margin-right:20px}.article>small{display:block;margin-top:17px}.article>h3{font-family:Inter,Arial,sans-serif}.article>a{display:inline-flex;align-items:center;gap:6px}.research{background:#17231c}.infrastructure{background:#f8f9fa}.infra-node{border-radius:14px;box-shadow:0 10px 30px #1d2a2010}.philosophy{background:#e9f0ea}.philo-grid>div{border-color:#d2ddd4}.philo-grid h3,.about h2{font-family:Inter,Arial,sans-serif}.final-cta{background:linear-gradient(120deg,#17231c,#2b4533)}.footer{background:#fff;color:#344039}.footer-top{border-bottom-color:#e5eae6}.footer-bottom{border-top-color:#e5eae6}.footer .brand-mark{border-radius:9px;transform:none;background:#e7efe8}.footer .brand-mark::first-letter{transform:none}.article-graphic{border-radius:0}
-

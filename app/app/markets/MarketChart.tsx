@@ -40,10 +40,9 @@ function TradingViewEmbed({ symbol }: { symbol: string }) {
     ref.current.innerHTML = "";
     const widget = document.createElement("div"); widget.className = "tradingview-widget-container__widget"; ref.current.appendChild(widget);
     const script = document.createElement("script"); script.src = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js"; script.async = true; script.type = "text/javascript";
-    script.text = JSON.stringify({ autosize: true, symbol, interval: "D", timezone: "Etc/UTC", theme: "light", style: "1", locale: "en", backgroundColor: "#ffffff", gridColor: "rgba(21,21,21,0.06)", allow_symbol_change: true, hide_side_toolbar: false, withdateranges: true, details: true, calendar: false, studies: ["STD;RSI", "STD;MACD"], support_host: "https://www.tradingview.com" });
+    script.text = JSON.stringify({ autosize: true, symbol, interval: "D", timezone: "Etc/UTC", theme: "light", style: "1", locale: "en", backgroundColor: "#ffffff", gridColor: "rgba(0,0,0,0.06)", overrides: { "paneProperties.background": "#ffffff", "paneProperties.vertGridProperties.color": "rgba(0,0,0,0.06)", "paneProperties.horzGridProperties.color": "rgba(0,0,0,0.06)", "mainSeriesProperties.candleStyle.upColor": "#2B2644", "mainSeriesProperties.candleStyle.downColor": "#A13B3B", "mainSeriesProperties.candleStyle.borderUpColor": "#2B2644", "mainSeriesProperties.candleStyle.borderDownColor": "#A13B3B", "mainSeriesProperties.candleStyle.wickUpColor": "#2B2644", "mainSeriesProperties.candleStyle.wickDownColor": "#A13B3B" }, allow_symbol_change: true, hide_side_toolbar: false, withdateranges: true, details: true, calendar: false, studies: ["STD;RSI", "STD;MACD"], support_host: "https://www.tradingview.com" });
     ref.current.appendChild(script);
     return () => { if (ref.current) ref.current.innerHTML = ""; };
   }, [symbol]);
   return <div className="tradingview-widget-container" ref={ref} />;
 }
-

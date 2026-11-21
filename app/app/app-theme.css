@@ -10,6 +10,7 @@
   background: #f5f5f5;
   color: #000;
   font-family: "TT Norms Pro", Inter, "Helvetica Neue", Arial, sans-serif;
+  overflow-x: clip;
 }
 
 .terminal-sidebar {
@@ -80,7 +81,7 @@
 .terminal-user>b { border: 1px solid #e5e5e5; border-radius: 999px; background: #f0f0f0; color: #000; }
 .terminal-user>b[data-credit-balance] { color: #2b2644; }
 .terminal-user>a { color: #000; }
-.terminal-content { max-width: 1600px; }
+.terminal-content { max-width: 1600px; min-width: 0; }
 .terminal-kicker { color: rgba(0,0,0,.52); }
 .terminal-heading h1,
 .terminal-heading h1 em,
@@ -89,8 +90,11 @@
 .prediction-main>h1,
 .research-hero-panel h2,
 .academy-banner h2 { font-family: "TT Norms Pro", Inter, "Helvetica Neue", Arial, sans-serif; }
-.terminal-heading h1 { color: #000; letter-spacing: -.065em; }
-.terminal-heading h1 em { color: rgba(0,0,0,.6); }
+.terminal-heading h1 { max-width: 100%; color: #000; letter-spacing: -.065em; overflow-wrap: anywhere; }
+.terminal-heading h1 em { color: rgba(0,0,0,.6); font-family: inherit; font-style: normal; font-weight: 400; white-space: normal; overflow-wrap: anywhere; }
+.terminal h1 em,
+.terminal h2 em,
+.terminal h3 em { font-style: normal; font-family: inherit; }
 .terminal-heading p { color: rgba(0,0,0,.64); }
 .heading-aside { border-color: #e5e5e5; }
 .heading-aside span,
@@ -174,7 +178,9 @@
 .app-feature p,
 .app-feature .feature-label,
 .app-feature .feature-link { color: #fff; }
-.app-feature h2 em { opacity: .68; }
+.app-feature h2 em { opacity: .68; font-style: normal !important; font-family: "TT Norms Pro", Inter, "Helvetica Neue", Arial, sans-serif !important; }
+.app-feature h2,
+.app-feature h2 em { max-width: 100%; white-space: normal; overflow-wrap: anywhere; font-style: normal; }
 .app-feature p { opacity: .72; }
 .app-feature .feature-graphic { opacity: .45; }
 .app-feature:hover,
@@ -378,6 +384,18 @@
   .terminal-sidebar nav a svg { width: 13px; height: 13px; }
   .terminal-topbar { position: sticky; top: 81px; }
   .terminal-content { padding: 24px 16px 50px; }
+  .terminal-heading h1 { font-size: clamp(31px, 10vw, 40px); line-height: 1.04; }
+  .heading-aside>b { font-family: "TT Norms Pro", Inter, "Helvetica Neue", Arial, sans-serif; font-size: 21px; }
+  .dashboard-top-grid,
+  .bottom-panels,
+  .dashboard-social-grid,
+  .arena-grid,
+  .market-footer-grid,
+  .detail-grid,
+  .community-layout { grid-template-columns: minmax(0, 1fr); }
+  .dashboard-top-grid>* ,
+  .bottom-panels>* ,
+  .dashboard-social-grid>* { min-width: 0; }
 }
 @media (prefers-reduced-motion: reduce) {
   .terminal *, .terminal *::before, .terminal *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }

@@ -3,7 +3,7 @@ import { Resend } from "resend";
 import { supabaseAdmin } from "@/lib/supabase";
 
 export const runtime = "nodejs";
-const categories=["Platform User","Early Access / Platform User","Investor Interest","Research & Technology","Strategic Partnership","Quantitative Research & Technology","General Interest"];
+const categories=["Platform User","Investor Interest","Research & Technology","Strategic Partnership","Quantitative Research & Technology","General Interest"];
 const clean=(v:unknown,max=1000)=>typeof v==="string"?v.trim().slice(0,max):"";
 export async function POST(req:NextRequest){
   try{
@@ -37,4 +37,5 @@ export async function POST(req:NextRequest){
     return NextResponse.json({ok:true},{status:201});
   }catch(error){console.error("Registration error",error);return NextResponse.json({error:"Registration is temporarily unavailable. Please try again later."},{status:503})}
 }
+
 

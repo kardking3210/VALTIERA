@@ -1,63 +1,119 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { ArrowDown, ArrowRight, ArrowUpRight, BarChart3, Check, CircleHelp, Facebook, Globe2, Instagram, Linkedin, Menu, Network, Twitter, X } from "lucide-react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowRight, ArrowUpRight, Check, X } from "lucide-react";
+import styles from "./landing.module.css";
 
-
+const heroVideo = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260423_161253_c72b1869-400f-45ed-ac0c-52f68c2ed5bd.mp4";
+const practiceVideo = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260423_183428_ab5e672a-f608-4dcb-b319-f3e040f02e2d.mp4";
+const collectiveImage = "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260423_164207_f243351d-ed59-48ec-83a0-a5e996bdbe3c.png&w=1280&q=85";
+const heroPoster = "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260430_115327_3f256636-9e63-4885-8d0b-09317dc2b0a5.png&w=1280&q=85";
+const marketNames = ["Bitcoin", "Ethereum", "Solana", "NVIDIA", "BlackRock", "Coinbase", "Chainlink"];
+const ecosystemNames = ["Binance", "Ethereum", "Polygon", "Solana", "Chainlink", "Coinbase", "Uniswap", "Aave"];
 const interests = ["Platform User", "Early Access / Platform User", "Investor Interest", "Research & Technology", "Quantitative Research & Technology", "Strategic Partnership", "General Interest"];
-const slides = [
-  { verb: "Discover", tint: "mint", line: "Perspectives reveal what a single lens can miss.", object: "✳" },
-  { verb: "Analyse", tint: "lavender", line: "Research brings structure to market complexity.", object: "◉" },
-  { verb: "Understand", tint: "peach", line: "Signals take meaning when seen in context.", object: "⌁" },
-  { verb: "Connect", tint: "blue", line: "Intelligence moves further when it is shared.", object: "✳" }
-];
-const pillars = [
-  { num:"01", title:"Community intelligence", copy:"A space for market participants to discuss, debate and publish investment theses.", tags:["Discussions","Market polls","Shared research"], icon:<Network/> },
-  { num:"02", title:"Quantitative research", copy:"Systematic research designed to evaluate market information, patterns and potential opportunities.", tags:["Market analysis","Model research","Risk review"], icon:<BarChart3/> },
-  { num:"03", title:"Investment infrastructure", copy:"A proposed environment connecting research, portfolio visibility and digital asset infrastructure.", tags:["Portfolio visibility","Blockchain connectivity","Strategy tracking"], icon:<Globe2/> },
-  { num:"04", title:"Research academy", copy:"Educational resources for understanding quantitative finance, algorithmic trading and digital markets.", tags:["Trading education","Market research","Learning resources"], icon:<CircleHelp/> }
-];
-const socialLinks = [
-  { label: "Facebook", href: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK, Icon: Facebook },
-  { label: "Twitter", href: process.env.NEXT_PUBLIC_SOCIAL_TWITTER, Icon: Twitter },
-  { label: "Instagram", href: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM, Icon: Instagram },
-  { label: "LinkedIn", href: process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN, Icon: Linkedin }
-];
+
+function BrandLogo() {
+  return <Image className={styles.brandLogo} src="/images/valtiera-logo.png" alt="" width={48} height={48}/>;
+}
+function Marquee({ items, className = "", duration }: { items: string[]; className?: string; duration: string }) {
+  return <div className={`${styles.marquee} ${className}`} style={{ "--marquee-duration": duration } as React.CSSProperties}>
+    <div className={styles.marqueeTrack}><div className={styles.marqueeGroup}>{items.map((item, index) => <span key={`${item}-${index}`}>{item}</span>)}</div><div className={styles.marqueeGroup} aria-hidden="true">{items.map((item, index) => <span key={`${item}-copy-${index}`}>{item}</span>)}</div></div>
+  </div>;
+}
+function ExploreLink({ href = "/app", children }: { href?: string; children: React.ReactNode }) {
+  return <Link className={styles.exploreLink} href={href}>{children}<span><ArrowRight size={17}/></span></Link>;
+}
+function DeferredVideo({ src, poster, className, onError, ariaHidden = false }: { src: string; poster: string; className: string; onError?: () => void; ariaHidden?: boolean }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  useEffect(() => {
+    const video = ref.current;
+    if (!video) return;
+    let started = false;
+    const start = () => {
+      if (started) return;
+      started = true;
+      video.src = src;
+      video.load();
+      void video.play().catch(() => undefined);
+      observer.disconnect();
+    };
+    const observer = new IntersectionObserver(entries => { if (entries.some(entry => entry.isIntersecting)) start(); }, { rootMargin: "180px" });
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, [src]);
+  return <video ref={ref} className={className} autoPlay muted loop playsInline preload="none" poster={poster} aria-hidden={ariaHidden} onError={onError}/>;
+}
 
 export default function Home() {
-  const [slide,setSlide] = useState(0), [modal,setModal] = useState(false), [mobile,setMobile] = useState(false);
-const heroRef=useRef<HTMLElement>(null);
-const {scrollYProgress}=useScroll({target:heroRef,offset:["start start","end start"]});
-const sculptureY=useTransform(scrollYProgress,[0,1],[-50,150]);
-useEffect(()=>{const t=setInterval(()=>setSlide(s=>(s+1)%slides.length),4700);return()=>clearInterval(t)},[]);
-  useEffect(()=>{document.documentElement.classList.add("motion-ready");const nodes=[...document.querySelectorAll<HTMLElement>('main > section:not(#top) .eyebrow, main > section:not(#top) h2')];const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add("revealed");observer.unobserve(entry.target)}}),{threshold:.12});nodes.forEach(node=>observer.observe(node));return()=>{observer.disconnect();document.documentElement.classList.remove("motion-ready")}},[]);
-  const open=()=>{setModal(true);setMobile(false)};
-  return <main className="valtiera-site"><div className="hero-spacer"><span>VIEW BELOW</span><ArrowDown size={16}/></div>
-    <section id="top" ref={heroRef} className={`hero ${slides[slide].tint}`} style={{backgroundImage:'linear-gradient(90deg,rgba(12,19,17,.70),rgba(12,19,17,.20)),url("https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260430_115327_3f256636-9e63-4885-8d0b-09317dc2b0a5.png&w=1280&q=85")'}}><div className="hero-grain"/><div className="hero-artwork-wash"/>
-      <motion.div className="brand-card" initial={{opacity:0,y:-20}} animate={{opacity:1,y:0}} transition={{duration:.8,ease:"easeOut"}}>
-        <div className="brand-card-main">
-          <div className="brand-card-top"><a className="brand-card-logo" href="#top" aria-label="VALTIERA home"><span className="brand-card-mark"><i/><i/><i/><i/></span><span>VALTIERA</span></a><button className="menu-toggle card-menu-toggle" aria-label="Toggle navigation" onClick={()=>setMobile(!mobile)}>{mobile?<X/>:<Menu/>}</button></div>
-          <nav className={mobile?"brand-card-links open":"brand-card-links"} aria-label="Main navigation">
-            <div><b>COMPANY</b><a href="#about" onClick={()=>setMobile(false)}>About</a><a href="#philosophy" onClick={()=>setMobile(false)}>Philosophy</a><a href="#contact" onClick={()=>setMobile(false)}>Contact</a></div>
-            <div><b>PLATFORM</b><a href="/app/predictions">Prediction Arena</a><a href="/app/markets">Market Intelligence</a><a href="/app/quant">Quant Research</a></div>
-            <div><b>RESOURCES</b><a href="/app/academy">Academy</a><a href="/app/research">Research</a><button onClick={open}>Early Access <ArrowUpRight size={13}/></button></div>
-          </nav>
+  const [modal, setModal] = useState(false);
+  const [heroVideoFailed, setHeroVideoFailed] = useState(false);
+  const [practiceVideoFailed, setPracticeVideoFailed] = useState(false);
+  return <main className={styles.page}>
+    <section id="top" className={styles.heroSection}>
+      <header className={styles.navbar}>
+        <Link className={styles.brand} href="#top" aria-label="VALTIERA home"><BrandLogo/><span>VALTIERA</span></Link>
+        <nav className={styles.navLinks} aria-label="Main navigation">
+          <Link href="#ecosystem">Network</Link><Link href="#information">Platform</Link><Link href="/app/quant">Research</Link><Link href="/app/community">Community</Link><Link href="/app/academy">Academy</Link>
+        </nav>
+        <Link className={styles.navCta} href="/app">Explore VALTIERA <ArrowUpRight size={15}/></Link>
+      </header>
+      <div className={styles.heroShell}>
+        <div className={styles.heroCard} style={{ backgroundImage: `linear-gradient(90deg,rgba(8,13,11,.58),rgba(8,13,11,.13) 78%),url("${heroPoster}")` }}>
+          {!heroVideoFailed && <video className={styles.heroVideo} autoPlay muted loop playsInline preload="auto" poster={heroPoster} aria-hidden="true" onError={() => setHeroVideoFailed(true)}><source src={heroVideo} type="video/mp4"/></video>}
+          <div className={styles.heroOverlay}/>
+          <div className={styles.heroContent}>
+            <div className={styles.eyebrow}><i/> INTELLIGENCE · RESEARCH · COMMUNITY</div>
+            <h1>Intelligence<br/>Behind Capital.</h1>
+            <p>Where collective intelligence meets quantitative research. Discover opportunities, challenge market assumptions and explore the signals shaping tomorrow&apos;s financial markets.</p>
+            <ExploreLink>Explore the Platform</ExploreLink>
+            <Marquee items={marketNames} className={styles.heroMarquee} duration="22s"/>
+            <small className={styles.editorialNote}>Illustrative ecosystem references. No affiliation or endorsement is implied.</small>
+          </div>
+          <div className={styles.heroMeta}><span>VALTIERA · FINANCIAL INTELLIGENCE</span><span>01 / 04</span></div>
         </div>
-        <div className="brand-card-footer"><span>© 2026 VALTIERA. All Rights Reserved.</span><div className="brand-socials">{socialLinks.filter(s=>s.href).map(({label,href,Icon})=><a key={label} href={href} aria-label={label} target="_blank" rel="noreferrer"><Icon size={20}/></a>)}</div></div>
-      </motion.div>
-      <div className="hero-inner"><div className="hero-copy"><div className="eyebrow"><i/> INDEPENDENT BY DESIGN · CONNECTED BY INTELLIGENCE</div><div className="hero-sequence"><span className="verb" key={slides[slide].verb}>{slides[slide].verb}</span><span>the signals around us.</span><span className="sequence-index">0{slide+1} / 04</span></div><h1>The market is<br/>a conversation.<br/><em>We build the intelligence around it.</em></h1><p className="hero-desc">{slides[slide].line} VALTIERA is building a connected investment intelligence ecosystem.</p><div className="actions"><a className="button dark" href="/app">Explore VALTIERA <ArrowRight size={16}/></a><button className="text-link" onClick={open}>Join Early Access <ArrowUpRight size={15}/></button></div></div><motion.div className="hero-art" aria-hidden="true" style={{y:sculptureY}}><div className="orbit orbit-a"/><div className="orbit orbit-b"/><div className="orb-core">{slides[slide].object}</div><span className="art-label label-a">COLLECTIVE<br/>PERSPECTIVE</span><span className="art-label label-b">SYSTEMATIC<br/>RESEARCH</span><span className="art-dot dot-a"/><span className="art-dot dot-b"/><span className="sculpture-caption">FIG. 01 — SHARED SIGNAL</span></motion.div></div><div className="hero-foot"><span>INTELLIGENCE BEHIND CAPITAL.</span><span>01 — 04</span></div><div className="slide-dots">{slides.map((s,i)=><button key={s.verb} aria-label={`Show ${s.verb}`} onClick={()=>setSlide(i)} className={i===slide?"active":""}/>)}</div></section>
-    <section className="intro section" id="about"><div className="intro-left"><div className="eyebrow">RETHINKING INVESTMENT INTELLIGENCE</div><h2>Markets move on information.<br/><em>Intelligence moves markets.</em></h2></div><div className="intro-right"><p>Financial markets generate enormous amounts of information. VALTIERA aims to bring together community perspectives, quantitative research and digital infrastructure into one connected investment ecosystem.</p><div className="principles"><div><b>01</b> Collective intelligence</div><div><b>02</b> Independent research</div><div><b>03</b> Systematic decision-making</div></div></div><div className="intro-network"><span/><span/><span/><span/><span/><i/></div></section>
-    <section className="platform section" id="platform"><div className="section-head"><div><div className="eyebrow">ONE CONNECTED ECOSYSTEM</div><h2>Multiple perspectives.<br/><em>One intelligent platform.</em></h2></div><p>A platform in development, designed to connect the people, methods and infrastructure behind more informed investing.</p></div><div className="pillar-grid">{pillars.map(p=><article className="pillar" key={p.num}><div className="pillar-top"><span>{p.num}</span><div className="pillar-icon">{p.icon}</div></div><h3>{p.title}</h3><p>{p.copy}</p><ul>{p.tags.map(t=><li key={t}><Check size={13}/>{t}</li>)}</ul></article>)}</div><div className="platform-cta"><span>Interested in shaping what comes next?</span><button className="button outline" onClick={open}>Join the VALTIERA Network <ArrowRight size={16}/></button></div></section>
-    <section className="community section" id="insights"><div className="community-copy"><div className="eyebrow light">COLLECTIVE INTELLIGENCE</div><h2>Ideas are the beginning of the research process.</h2><p>VALTIERA imagines a marketplace of ideas: investment discussions, polls, bullish and bearish arguments, and theses that can be examined in public.</p><a href="#research" className="text-link light-link">Follow an idea into the evidence <ArrowRight size={16}/></a></div><div className="poll-card"><div className="poll-top"><span>IDEAS DESK　/　OPEN QUESTION</span><span className="demo-pill">ILLUSTRATIVE</span></div><h3>Where should we direct our next research question?</h3><div className="poll-row"><span>Bitcoin</span><div><i style={{width:"32%"}}/></div><b>32%</b></div><div className="poll-row"><span>Ethereum</span><div><i style={{width:"26%"}}/></div><b>26%</b></div><div className="poll-row"><span>S&amp;P 500</span><div><i style={{width:"24%"}}/></div><b>24%</b></div><div className="poll-row"><span>Gold</span><div><i style={{width:"18%"}}/></div><b>18%</b></div><div className="poll-note">Illustrative discussion data. Community voting surfaces questions; it does not predict direction or recommend an investment.</div><div className="comment"><span className="avatar">A</span><p><b>THE CASE FOR A CLOSER LOOK</b><br/>Network activity may add useful context to price behaviour.</p></div><div className="comment"><span className="avatar alt">M</span><p><b>THE COUNTERARGUMENT</b><br/>A different macro regime could quickly change the risk picture.</p></div></div></section>
-    <section className="research section" id="research"><div className="research-top"><div><div className="eyebrow light">QUANTITATIVE INTELLIGENCE · 02</div><h2>Opinions create hypotheses.<br/><em>Research tests them.</em></h2></div><p>Our research framework is being developed to evaluate market behaviour using quantitative models, systematic analysis and risk-aware methodologies.</p></div><div className="research-board"><div className="board-bar"><div className="board-title"><span className="mini-mark">V</span> RESEARCH MONITOR <span className="demo-pill">SIMULATED</span></div><span className="board-time">DEMO ENVIRONMENT · NOT LIVE DATA</span></div><div className="board-main"><div className="chart-panel"><div className="chart-head"><div><small>MARKET OVERVIEW · ILLUSTRATIVE</small><h3>Research composite</h3></div><span>30D VIEW</span></div><div className="chart-value">— <small>SIMULATED INDEX</small></div><div className="chart"><div className="chart-grid"/><svg viewBox="0 0 680 180" preserveAspectRatio="none" aria-label="Illustrative market chart"><defs><linearGradient id="fill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stopColor="#c5a572" stopOpacity=".3"/><stop offset="1" stopColor="#c5a572" stopOpacity="0"/></linearGradient></defs><path d="M0 140 C35 133 42 111 80 119 S130 150 164 105 S212 100 246 112 S295 71 330 90 S372 104 403 68 S451 81 485 55 S536 84 567 45 S628 62 680 20 L680 180 L0 180Z" fill="url(#fill)"/><path d="M0 140 C35 133 42 111 80 119 S130 150 164 105 S212 100 246 112 S295 71 330 90 S372 104 403 68 S451 81 485 55 S536 84 567 45 S628 62 680 20" fill="none" stroke="#c5a572" strokeWidth="2"/></svg></div><div className="chart-legend"><span>MODEL OBSERVATION</span><span>WEEK 1　 WEEK 2　 WEEK 3　 WEEK 4</span></div></div><div className="signal-panel"><small>RESEARCH SIGNALS · SAMPLE</small><div className="signal"><i className="signal-dot green"/><span>Trend behaviour</span><b>Review</b></div><div className="signal"><i className="signal-dot gold"/><span>Volatility regime</span><b>Elevated</b></div><div className="signal"><i className="signal-dot gray"/><span>Risk exposure</span><b>Monitor</b></div><div className="risk-meter"><span>RISK INDICATOR</span><div><i/></div><b>Illustrative</b></div></div></div></div><div className="capabilities">{[["01","Market intelligence","Stocks, futures, options, digital assets and supported markets."],["02","Signal detection","Models evaluate information to surface patterns for research."],["03","Strategy research","Backtesting concepts and systematic model comparisons."],["04","Risk intelligence","Volatility, exposure and drawdown analysis." ]].map(([n,t,d])=><div key={n}><b>{n}</b><h3>{t}</h3><p>{d}</p></div>)}</div></section>
-    <section className="infrastructure section"><div className="infra-visual"><div className="infra-node node-one">MARKET DATA</div><div className="infra-node node-two"><span>V</span><br/>RESEARCH</div><div className="infra-node node-three">DIGITAL ASSETS</div><div className="infra-node node-four">PORTFOLIO VIEW</div><div className="infra-lines"/></div><div className="infra-copy"><div className="eyebrow">DIGITAL FINANCIAL INFRASTRUCTURE</div><h2>From intelligence to execution.</h2><p>We envision a transparent infrastructure layer linking research workflows with digital asset visibility and portfolio tools. These capabilities are proposed and under development.</p><div className="infra-points"><span><Check/> Individual wallet architecture</span><span><Check/> Blockchain connectivity</span><span><Check/> Portfolio and transaction visibility</span><span><Check/> Research-to-execution workflow</span></div></div></section>
-    <section className="academy section"><div className="section-head"><div><div className="eyebrow">THE VALTIERA KNOWLEDGE NETWORK</div><h2>Understand the systems<br/><em>behind the markets.</em></h2></div><p>Clear, practical resources to help make complex financial ideas more approachable.</p></div><div className="article-grid">{[["QUANTITATIVE FINANCE","01","Introduction to Algorithmic Trading","A considered starting point for understanding rule-based approaches to markets."],["INVESTMENT STRATEGIES","02","Understanding Quantitative Investment Strategies","How research frameworks turn questions into structured methods."],["MARKET RESEARCH","03","How Market Signals and Risk Models Work","A primer on observations, uncertainty and risk-aware analysis."]].map(([tag,n,title,copy])=><article className="article" key={n}><div className="article-graphic"><span>{n}</span><div className="graphic-lines"/></div><small>{tag}　·　19 NOV 2026　·　PREVIEW　·　6 MIN READ</small><h3>{title}</h3><p>{copy}</p><a href="#contact" aria-label={`Learn more about ${title}`}>Read the overview <ArrowUpRight size={15}/></a></article>)}</div><div className="centered"><a href="#contact" className="button outline">Explore research <ArrowRight size={15}/></a></div></section>
-    <section className="philosophy section" id="philosophy"><div className="eyebrow">OUR INVESTMENT PHILOSOPHY</div><h2>Evidence<br/>before <em>conviction.</em></h2><div className="philo-grid">{[["01","Independent thinking","Community opinions are valuable inputs, not substitutes for independent analysis."],["02","Quantitative validation","Investment hypotheses deserve examination through research, data and systematic testing."],["03","Risk before returns","Risk management belongs in every investment framework from the start."]].map(([n,t,d])=><div key={n}><b>{n}</b><h3>{t}</h3><p>{d}</p></div>)}</div></section>
-    <section className="about section"><div><div className="eyebrow">A LONG-TERM VISION</div><h2>Building a more connected financial ecosystem.</h2></div><div className="about-text"><p>VALTIERA is being developed around a simple idea: sophisticated financial intelligence can become more accessible when people, research and technology connect.</p><div className="mission"><span>MISSION</span><p>To make sophisticated financial intelligence more accessible by connecting people, research and technology.</p></div><div className="mission"><span>VISION</span><p>A global ecosystem where collective knowledge, quantitative research and digital financial infrastructure work together.</p></div><div className="founder-placeholder">Founding team information will be shared as the project develops.</div></div></section>
-    <section className="final-cta section" id="contact"><div className="cta-network"><i/><i/><i/><i/><span/></div><div className="eyebrow light">THE NEXT CHAPTER STARTS WITH A CONVERSATION</div><h2>Intelligence is built<br/><em>collectively.</em></h2><p>Explore a new approach to financial research, collective intelligence and quantitative investment technology.</p><div className="actions"><button className="button gold" onClick={open}>Join VALTIERA <ArrowRight size={16}/></button><button className="text-link light-link" onClick={open}>Speak with our team <ArrowUpRight size={15}/></button></div><small>Expression of interest only. No offer of securities or investment services.</small></section>
-    <footer className="footer"><div className="footer-top"><div><a className="brand" href="#top"><span className="brand-mark">V</span><span>VALTIERA</span></a><p>Intelligence behind capital.</p></div><div className="foot-col"><b>COMPANY</b><a href="#about">About</a><a href="#philosophy">Our philosophy</a><a href="#contact">Contact</a></div><div className="foot-col"><b>PLATFORM</b><a href="#platform">Community</a><a href="#research">Quantitative research</a><a href="#platform">Infrastructure</a><a href="#insights">Research academy</a></div><div className="foot-col"><b>RESOURCES</b><a href="#insights">Articles</a><a href="#contact">Documentation</a><a href="#contact">FAQ</a></div><div className="foot-col"><b>LEGAL</b><a href="/privacy">Privacy policy</a><a href="/terms">Terms of use</a><a href="#risk">Risk disclosure</a></div></div><div className="risk" id="risk">VALTIERA is developing its platform. All interface figures are illustrative and do not represent live data, actual performance, assets under management or investment results. Content is for informational purposes only and is not investment advice, an offer of securities or a commitment to provide investment services. Investing involves risk, including loss of capital.</div><div className="footer-bottom"><span>© {new Date().getFullYear()} VALTIERA. All rights reserved.</span><span>INTELLIGENCE BEHIND CAPITAL.</span></div></footer>
-    {modal&&<RegistrationModal close={()=>setModal(false)}/>}
-  </main>
+      </div>
+    </section>
+
+    <section id="information" className={styles.information}>
+      <div className={styles.container}>
+        <div className={styles.introRow}>
+          <div><span className={styles.sectionIndex}>01 / THE PLATFORM</span><h2>Meet<br/><em>VALTIERA.</em></h2><ExploreLink>Discover the Platform</ExploreLink></div>
+          <p>VALTIERA brings together financial communities, market intelligence and quantitative research in one platform. Explore ideas, challenge assumptions and understand market opportunities through collective and independent analysis.</p>
+        </div>
+        <div className={styles.featureGrid}>
+          <Link className={`${styles.featureCard} ${styles.collectiveCard}`} href="/app/community">
+            <img src={collectiveImage} alt="" loading="lazy"/><div className={styles.cardShade}/><div className={styles.featureText}><span>01 / COMMUNITY</span><h3>Collective Intelligence</h3><p>Explore financial discussions, challenge investment theses and understand how the community views market opportunities.</p><b>Explore the community <ArrowUpRight size={16}/></b></div>
+          </Link>
+          <Link className={`${styles.featureCard} ${styles.purpleCard}`} href="/app/markets"><span>02 / DATA &amp; RESEARCH</span><h3>Market Intelligence</h3><p>Understand market movements through financial data, market analysis and quantitative research.</p><b>Explore markets <ArrowUpRight size={16}/></b><div className={styles.cardOrb} aria-hidden="true"/></Link>
+          <Link className={`${styles.featureCard} ${styles.purpleCard}`} href="/app/predictions"><span>03 / SCENARIO RESEARCH</span><h3>Prediction Arena</h3><p>Challenge market assumptions, explore possible outcomes and evaluate predictions through simulated markets.</p><b>Explore scenarios <ArrowUpRight size={16}/></b><div className={`${styles.cardOrb} ${styles.cardOrbAlt}`} aria-hidden="true"/></Link>
+        </div>
+      </div>
+    </section>
+
+    <section id="ecosystem" className={styles.ecosystem}>
+      <div className={`${styles.container} ${styles.ecosystemGrid}`}>
+        <div><span className={styles.sectionIndex}>02 / CONNECTED REFERENCES</span><h2>Our<br/><em>Ecosystem.</em></h2><p>Built around an ecosystem of financial data, research and technology.</p></div>
+        <div className={styles.ecosystemContent}><Marquee items={ecosystemNames} duration="30s"/><p className={styles.disclaimer}>Illustrative technology and market references only. These organisations are not represented as VALTIERA investors, sponsors or partners.</p></div>
+      </div>
+    </section>
+
+    <section id="use-cases" className={styles.useCases}>
+      <div className={`${styles.container} ${styles.useCasesGrid}`}>
+        <div className={styles.useCasesCopy}><span className={styles.sectionIndex}>03 / VALTIERA IN PRACTICE</span><h2>Explore the<br/><em>possibilities.</em></h2><p>From financial discussions and collective market predictions to independent quantitative research, VALTIERA connects the different perspectives shaping financial markets.</p><ExploreLink href="/app/community">Know more</ExploreLink></div>
+        <div className={styles.practiceCard} style={{ backgroundImage: `url("${collectiveImage}")` }}>
+          {!practiceVideoFailed && <DeferredVideo className={styles.practiceVideo} src={practiceVideo} poster={collectiveImage} onError={() => setPracticeVideoFailed(true)}/> }
+          <div className={styles.practiceShade}/><div className={styles.practiceText}><span>COMMUNITY · RESEARCH · PERSPECTIVE</span><h3>Collective Intelligence</h3><p>Discuss financial markets, create investment polls, challenge ideas and explore quantitative insights.</p><ExploreLink href="/app/community">Know more</ExploreLink></div>
+        </div>
+      </div>
+    </section>
+
+    <footer className={styles.footer}>
+      <div className={`${styles.container} ${styles.footerMain}`}><Link className={styles.brand} href="#top"><BrandLogo/><span>VALTIERA</span></Link><p>Intelligence behind capital.</p><div className={styles.footerLinks}><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><button onClick={() => setModal(true)}>Register your interest</button></div></div>
+      <div className={`${styles.container} ${styles.footerBottom}`}><span>© {new Date().getFullYear()} VALTIERA</span><span>Illustrative information · not investment advice.</span></div>
+    </footer>
+    {modal && <RegistrationModal close={() => setModal(false)}/>}
+  </main>;
 }
 
 function RegistrationModal({close}:{close:()=>void}) {
@@ -72,4 +128,3 @@ function RegistrationModal({close}:{close:()=>void}) {
   {step===3&&<div className="review"><div><span>NAME</span><b>{form.full_name}</b></div><div><span>EMAIL</span><b>{form.email}</b></div><div><span>COUNTRY</span><b>{form.country}</b></div><div><span>AREA OF INTEREST</span><b>{form.interest_category}</b></div><div className="review-note">This is an expression of interest only, not an offer of securities, invitation to deposit funds or commitment to provide investment services.</div><label className="check-label"><input type="checkbox" checked={form.consent_privacy} onChange={e=>set("consent_privacy",e.target.checked)}/><span>I agree to the <a href="/privacy" target="_blank">Privacy Policy</a> and consent to VALTIERA processing my information to respond to my enquiry. <em>*</em></span></label><label className="check-label optional"><input type="checkbox" checked={form.consent_marketing} onChange={e=>set("consent_marketing",e.target.checked)}/><span>I’d like to receive occasional updates about VALTIERA. (Optional)</span></label></div>}
   {error&&<p className="form-error" role="alert">{error}</p>}<div className="form-actions">{step>1?<button className="back" onClick={()=>{setError("");setStep(s=>s-1)}}>Back</button>:<span/>}{step<3?<button className="button dark" onClick={next}>Continue <ArrowRight size={15}/></button>:<button className="button dark" disabled={busy} onClick={submit}>{busy?"Submitting…":"Submit registration"} <ArrowRight size={15}/></button>}</div></>}</div></div>
 }
-

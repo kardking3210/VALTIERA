@@ -8,7 +8,7 @@ The `/app` routes provide a demo-first social investing prototype: seeded fictio
 
 1. Install Node.js 20 or later.
 2. Copy `.env.example` to `.env.local` and fill in the server credentials.
-3. Run the SQL migrations in order in the Supabase SQL editor: `202611190001_registrations.sql`, `202611200002_application_prototype.sql`, `202611200003_remove_virtual_money.sql`, `202611210001_community_messages_research.sql`, then `202611210002_live_demo_platform.sql` and `202611220001_early_access_waitlist.sql`. The waitlist table is private under RLS; public registration and exact aggregate counts use server routes with the service-role key, which must remain server-side.
+3. Run the SQL migrations in order in the Supabase SQL editor: `202611190001_registrations.sql`, `202611200002_application_prototype.sql`, `202611200003_remove_virtual_money.sql`, `202611210001_community_messages_research.sql`, then `202611210002_live_demo_platform.sql` and `202611220001_early_access_waitlist.sql`, and `202611220002_repair_allow_registration.sql`. The waitlist table is private under RLS; public registration and exact aggregate counts use server routes with the service-role key, which must remain server-side.
 4. Install and start the app:
 
    ```sh
@@ -57,7 +57,7 @@ The Privacy and Terms pages are starter policy text and need review for the oper
 
 1. Push this project to a private or public GitHub repository; confirm `.env.local` is ignored.
 2. Import the repository into Vercel and select the Next.js framework preset.
-3. Create a Supabase project and run all five SQL migrations in order.
+3. Create a Supabase project and run all seven SQL migrations in order.
 4. Add the environment variables in Vercel Project Settings for Production and Preview as appropriate. Keep service role, Resend and admin secrets server-only.
 5. Verify a sending domain in Resend and set `RESEND_FROM_EMAIL`; configure `ADMIN_EMAIL`.
 6. Set `NEXT_PUBLIC_SITE_URL` to the production URL, deploy, then connect the VALTIERA domain when available.
@@ -71,5 +71,6 @@ The Privacy and Terms pages are starter policy text and need review for the oper
 - Demo chart probabilities, seeded vote counts, virtual portfolios, and leaderboard scores are illustrative and are never real-user traction or verified performance. TradingView controls its own quote availability and delay labels. The Academy embeds the Trade with Pat lesson and uses the publisher’s hosted thumbnail.
 - The current development environment has no `.env.local` Supabase credentials. Apply the migrations and configure Auth before validating registered-user writes, RLS policies, mail delivery, or moderator market resolution.
 - The site uses system-hosted Google Fonts via CSS import. For a fully self-contained deployment, package approved font files locally.
+
 
 

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { ArrowDown, ArrowLeft, ArrowRight, Download, Menu, X } from "lucide-react";
 import "./overview.css";
+import "./overview-theme.css";
 
 type Item = { label: string; detail?: string };
 const sections = [
@@ -192,4 +193,3 @@ export default function ProductOverview() {
     </div>
   </main>;
 }
-

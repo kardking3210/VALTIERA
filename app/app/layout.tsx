@@ -26,6 +26,7 @@ import { supabaseBrowser } from "@/lib/supabase-browser";
 import { StorageCleanup } from "./StorageCleanup";
 import "./terminal.css";
 import "./app-theme.css";
+import "./orbit-theme.css";
 
 const sections = [
   {

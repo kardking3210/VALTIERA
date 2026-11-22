@@ -5,10 +5,10 @@ import Image from "next/image";
 import { ArrowDown, ArrowRight, ArrowUpRight, Check, Menu, X } from "lucide-react";
 import styles from "./landing.module.css";
 
-const heroVideo = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260511_230229_7c9bc431-46cf-489a-948d-e8144d8eb5d4.mp4";
+const heroVideo = "https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/4b73c700-3112-4c07-bd48-0af2893dff7c.mp4";
 const practiceVideo = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260423_183428_ab5e672a-f608-4dcb-b319-f3e040f02e2d.mp4";
 const collectiveImage = "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260423_164207_f243351d-ed59-48ec-83a0-a5e996bdbe3c.png&w=1280&q=85";
-const heroPoster = "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260430_115327_3f256636-9e63-4885-8d0b-09317dc2b0a5.png&w=1280&q=85";
+const heroPoster = "https://d2ol7oe51mr4n9.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/0bf7409c-9fa2-4bef-a49d-34903dcc91ad.png";
 const interests = ["Platform User", "Investor Interest", "Research & Technology", "Quantitative Research & Technology", "Strategic Partnership", "General Interest"];
 
 function BrandLogo() {
@@ -48,17 +48,17 @@ export default function Home() {
       <div className={styles.heroOverlay} aria-hidden="true"/>
       <header className={styles.navbar}>
         <Link className={styles.brand} href="#top" aria-label="VALTIERA home"><BrandLogo/><span>VALTIERA</span></Link>
-        <nav className={`${styles.navLinks} liquid-glass`} aria-label="Main navigation">
-          <Link href="#information">Platform</Link><Link href="/overview">Overview</Link><Link href="/app/quant">Research</Link><Link href="/app/community">Community</Link><Link href="/app/academy">Academy</Link>
+        <nav className={styles.navLinks} aria-label="Main navigation">
+          <Link href="#information">Platform</Link><Link href="#community">Community</Link><Link href="#markets">Markets</Link><Link href="#research">Research</Link><Link href="#academy">Academy</Link>
         </nav>
-        <div className={styles.navActions}><Link className={`${styles.navCta} liquid-glass`} href="/app">Explore platform <ArrowUpRight size={15}/></Link><button className={`${styles.menuButton} liquid-glass`} aria-label={menuOpen?"Close navigation":"Open navigation"} aria-expanded={menuOpen} onClick={()=>setMenuOpen(v=>!v)}>{menuOpen?<X size={19}/>:<Menu size={19}/>}</button></div>
+        <div className={styles.navActions}><Link className={styles.loginLink} href="/login">Log in</Link><Link className={styles.navCta} href="#early-access">Join Waitlist</Link><button className={styles.menuButton} aria-label={menuOpen?"Close navigation":"Open navigation"} aria-expanded={menuOpen} onClick={()=>setMenuOpen(v=>!v)}>{menuOpen?<X size={19}/>:<Menu size={19}/>}</button></div>
       </header>
-      {menuOpen&&<nav className={`${styles.mobileMenu} liquid-glass`} aria-label="Mobile navigation"><Link onClick={()=>setMenuOpen(false)} href="#information">Platform</Link><Link onClick={()=>setMenuOpen(false)} href="/overview">Overview</Link><Link onClick={()=>setMenuOpen(false)} href="/app/quant">Research</Link><Link onClick={()=>setMenuOpen(false)} href="/app/community">Community</Link><Link onClick={()=>setMenuOpen(false)} href="/app/academy">Academy</Link></nav>}
+      {menuOpen&&<nav className={styles.mobileMenu} aria-label="Mobile navigation"><Link onClick={()=>setMenuOpen(false)} href="#information">Platform</Link><Link onClick={()=>setMenuOpen(false)} href="#community">Community</Link><Link onClick={()=>setMenuOpen(false)} href="#markets">Markets</Link><Link onClick={()=>setMenuOpen(false)} href="#research">Research</Link><Link onClick={()=>setMenuOpen(false)} href="#academy">Academy</Link><Link onClick={()=>setMenuOpen(false)} href="/login">Log in</Link><Link onClick={()=>setMenuOpen(false)} href="#early-access">Join Waitlist</Link></nav>}
       <div className={styles.heroContent}>
-        <div className={styles.eyebrow}><i/> FINANCIAL INTELLIGENCE · VALTIERA</div>
-        <h1>Intelligence<br/><span>Behind Capital.</span></h1>
-        <p>Where collective intelligence meets quantitative research. Explore financial markets, challenge investment ideas, evaluate predictions and discover the signals shaping tomorrow's opportunities.</p>
-        <div className={styles.heroActions}><Link className={`${styles.heroPrimary} liquid-glass`} href="/app">Explore VALTIERA <ArrowUpRight size={17}/></Link><Link className={styles.heroSecondary} href="#early-access">Join the Waiting List <ArrowRight size={16}/></Link></div>
+        <Link className={styles.announcementPill} href="#information"><span>NEW</span> — A NEW WAY TO THINK ABOUT FINANCIAL MARKETS <ArrowRight size={13}/></Link>
+        <h1><span className={styles.heroLine}><span>See beyond the market.</span></span><span className={styles.heroLine}><span>Think beyond the obvious.</span></span></h1>
+        <p>Where collective intelligence meets quantitative research. Explore market movements, challenge investment ideas, evaluate predictions and uncover the signals shaping financial markets.</p>
+        <div className={styles.heroActions}><Link className={styles.heroPrimary} href="/app">Explore VALTIERA <ArrowUpRight size={17}/></Link><Link className={styles.heroSecondary} href="#early-access">Join the Waitlist <ArrowRight size={16}/></Link></div>
       </div>
       <div className={styles.heroFoot}><span>COLLECTIVE INTELLIGENCE <i/> QUANTITATIVE RESEARCH <i/> MARKET CONTEXT</span><a href="#information" aria-label="Scroll to explore the platform">SCROLL TO EXPLORE <ArrowDown size={14}/></a></div>
     </section>
@@ -66,8 +66,8 @@ export default function Home() {
     <section id="information" className={styles.information}>
       <div className={styles.container}>
         <div className={styles.introRow}>
-          <div><span className={styles.sectionIndex}>01 / THE PLATFORM</span><h2>Meet<br/><em>VALTIERA.</em></h2><ExploreLink>Discover the Platform</ExploreLink></div>
-          <p>VALTIERA brings together financial communities, market intelligence and quantitative research in one platform. Explore ideas, challenge assumptions and understand market opportunities through collective and independent analysis.</p>
+          <div><span className={styles.sectionIndex}>01 / INTRODUCING VALTIERA</span><h2>Financial intelligence,<br/><em>reimagined.</em></h2><ExploreLink>Discover the Platform</ExploreLink></div>
+          <p>VALTIERA brings together financial communities, prediction-based analysis and quantitative research in one platform. Explore ideas, challenge assumptions and understand market opportunities through collective and independent analysis.</p>
         </div>
         <div className={styles.featureGrid}>
           <Link className={`${styles.featureCard} ${styles.collectiveCard}`} href="/app/community">
@@ -121,6 +121,32 @@ export default function Home() {
       </div>
     </section>
 
+    <div className={styles.editorialStories}>
+      {[
+        { id: "community", no: "02", label: "COLLECTIVE INTELLIGENCE", title: "Markets are better understood through debate.", copy: "A financial community built around considered theses, evidence and disagreement. Follow asset conversations, compare bullish and bearish cases, and add a reasoned view of your own.", points: ["Investment theses and market discussion", "Upvotes, comments and replies", "Asset-led community search"], href: "/app/community", action: "Explore Community", visual: "community", visualTitle: "COMMUNITY / DISCUSSION" },
+        { id: "decision-arena", no: "03", label: "DECISION ARENA", title: "Challenge the consensus.", copy: "Structured financial polls give a question room for several answers. Compare community votes with the reasoning behind them, including the strongest counterargument.", points: ["Bullish and bearish arguments", "Community voting and sentiment", "Poll history and discussion"], href: "/app/polls", action: "Enter Decision Arena", visual: "decision", visualTitle: "DECISION ARENA / POLL" },
+        { id: "prediction-arena", no: "04", label: "PREDICTION ARENA", title: "Turn opinions into measurable predictions.", copy: "Explore YES and NO outcomes, implied probabilities and resolution criteria. Participation uses virtual credits only; it is not real-money trading or wagering.", points: ["Probability and participation history", "Defined closing and resolution criteria", "Virtual-credit-only positions"], href: "/app/predictions", action: "Explore Prediction Arena", visual: "prediction", visualTitle: "PREDICTION / SIMULATION" },
+        { id: "markets", no: "05", label: "MARKET INTELLIGENCE", title: "See the market from every angle.", copy: "Explore supported assets with interactive provider charts, historical context, watchlists and market information. Data availability and delay depend on the source.", points: ["Stocks, crypto and supported markets", "Interactive charting and watchlists", "Source and data-state context"], href: "/app/markets", action: "Explore Markets", visual: "markets", visualTitle: "MARKET INTELLIGENCE / CHARTS" },
+        { id: "research", no: "06", label: "QUANTITATIVE RESEARCH", title: "Evidence over instinct.", copy: "Study quantitative methods for momentum, volatility, correlations, regimes and risk. Research outputs should be read with their assumptions, inputs and limitations; no verified trading performance is implied.", points: ["Statistical methods and market context", "Risk and correlation views", "Transparent methodology and limits"], href: "/app/quant", action: "Open Quant Research", visual: "research", visualTitle: "QUANT RESEARCH / METHODS" },
+        { id: "portfolio", no: "07", label: "VIRTUAL PORTFOLIO", title: "Test your thinking.", copy: "Explore hypothetical allocations, simulated positions and transaction history in a practice environment. Portfolio results are simulated and carry no monetary value.", points: ["Virtual positions and allocations", "Practice ledger and history", "Simulated portfolio analysis"], href: "/app/portfolio", action: "View Virtual Portfolio", visual: "portfolio", visualTitle: "PORTFOLIO / SIMULATED" },
+        { id: "academy", no: "08", label: "VALTIERA ACADEMY", title: "Understand before you participate.", copy: "Build financial literacy through lessons, research material and video learning. Track course progress and return to saved lessons as you learn.", points: ["Course and lesson library", "Video lessons and descriptions", "Bookmarks and learning progress"], href: "/app/academy", action: "Visit the Academy", visual: "academy", visualTitle: "ACADEMY / LEARNING" },
+        { id: "product-overview", no: "09", label: "PRODUCT OVERVIEW", title: "Understand the architecture behind VALTIERA.", copy: "Read the complete product overview, including platform architecture, market-data flow, prediction mechanics, quantitative research, portfolio simulation, risk, governance and roadmap.", points: ["Technical documentation and diagrams", "Protocol and data flow", "Downloadable product overview"], href: "/overview", action: "Read Product Overview", visual: "overview", visualTitle: "VALTIERA / PRODUCT ARCHITECTURE" },
+      ].map((item, index) => <section id={item.id} key={item.id} className={`${styles.editorialSection} ${index % 2 ? styles.editorialReverse : ""}`} aria-labelledby={`${item.id}-title`}>
+        <div className={styles.editorialCopy}>
+          <span className={styles.sectionIndex}>{item.no} / {item.label}</span>
+          <h2 id={`${item.id}-title`}>{item.title}</h2>
+          <p>{item.copy}</p>
+          <ul>{item.points.map((point) => <li key={point}>{point}</li>)}</ul>
+          <ExploreLink href={item.href}>{item.action}</ExploreLink>
+        </div>
+        <div className={styles.storyVisual} data-visual={item.visual} aria-label={`${item.visualTitle} interface preview`}>
+          <div className={styles.storyVisualTop}><span>VALTIERA</span><span>{item.visualTitle}</span></div>
+          <div className={styles.storyVisualBody} aria-hidden="true"><div className={styles.storySignal}><i/><i/><i/><i/><i/><i/><i/></div><div className={styles.storySignalLabels}><span>COMMUNITY VIEW</span><span>INDEPENDENT ANALYSIS</span></div><div className={styles.storySignalRule}/><div className={styles.storySignalRule}/><div className={styles.storySignalRule}/></div>
+          <div className={styles.storyVisualBottom}><span>RESEARCH CONTEXT</span><span>Illustrative interface</span></div>
+        </div>
+      </section>)}
+    </div>
+
     <section id="ecosystem" className={styles.ecosystem} aria-label="VALTIERA research disciplines">
       <div className={`${styles.container} ${styles.ecosystemGrid}`}>
         <div><span className={styles.sectionIndex}>A CONNECTED PERSPECTIVE</span><h2>Markets,<br/><em>in context.</em></h2><p>One workspace for the ideas, evidence and analysis behind financial decisions.</p></div>
@@ -141,7 +167,7 @@ export default function Home() {
     <WaitlistSection />
 
     <footer className={styles.footer}>
-      <div className={`${styles.container} ${styles.footerMain}`}><Link className={styles.brand} href="#top"><BrandLogo/><span>VALTIERA</span></Link><p>Intelligence behind capital.</p><div className={styles.footerLinks}><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link><button onClick={() => setModal(true)}>Register your interest</button></div></div>
+      <div className={`${styles.container} ${styles.footerMain}`}><Link className={styles.brand} href="#top"><BrandLogo/><span>VALTIERA</span></Link><p>Intelligence behind capital.</p><div className={styles.footerLinks}><Link href="#information">Platform</Link><Link href="#community">Community</Link><Link href="/overview">Product Overview</Link><Link href="/app/academy">Academy</Link><Link href="/register">Contact</Link><Link href="/privacy">Privacy</Link><Link href="/terms">Terms</Link></div></div>
       <div className={`${styles.container} ${styles.footerBottom}`}><span>© {new Date().getFullYear()} VALTIERA</span><span>Illustrative information · not investment advice.</span></div>
     </footer>
     {modal && <RegistrationModal close={() => setModal(false)}/>}

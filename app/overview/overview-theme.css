@@ -6,3 +6,23 @@
 @media print{.overview-page{background:#fff!important;color:#111!important}.overview-page .ov-section h2,.overview-page .ov-section h3,.overview-page .ov-cover h1{color:#111!important}.overview-page .ov-diagram,.overview-page .ov-callout,.overview-page .ov-formula,.overview-page .ov-table,.overview-page .ov-layer-row{background:#fff!important;color:#111!important;box-shadow:none!important}}
 
 .overview-page :is(h1,h2,h3,h4,p,a,button,th,td,label,input,select,textarea){font-family:'Geist',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+
+/* Product Overview joins the restrained Orbit-inspired editorial system. */
+.overview-page { --ov-line: rgba(255,255,255,.14); background: #050505; color: #fff; font-family: "InterVar",Inter,"Helvetica Neue",Arial,sans-serif; }
+.ov-topbar { background: rgba(5,5,5,.9); border-color: var(--ov-line); }
+.ov-brand,.ov-topbar nav,.ov-cover h1,.ov-section h2,.ov-section h3 { color: #fff; }
+.ov-layout { color: #fff; }
+.ov-sidebar { background: #050505; border-color: var(--ov-line); }
+.ov-sidebar nav button.active { border: 0; border-left: 1px solid #c9bdf0; border-radius: 0; background: rgba(255,255,255,.045); }
+.ov-cover { min-height: 62vh; display: flex; flex-direction: column; justify-content: center; border: 0; border-bottom: 1px solid var(--ov-line); border-radius: 0; background: radial-gradient(ellipse at 78% 78%,rgba(201,189,240,.1),transparent 35%),#050505; }
+.ov-cover h1 { max-width: 900px; font-size: clamp(48px,8vw,100px); font-weight: 520; letter-spacing: -.07em; line-height: .98; }
+.ov-cover h1 em { color: rgba(255,255,255,.57); }
+.ov-cover>p,.ov-section p,.ov-component-grid p,.ov-callout p,.ov-table td,.ov-formula p,.ov-risk-grid p,.ov-segment-row span,.ov-roadmap-item p,.ov-roadmap-item small,.ov-glossary dd { color: rgba(255,255,255,.61); }
+.ov-section { border-color: var(--ov-line); }
+.ov-diagram,.ov-component-grid article,.ov-callout,.ov-formula,.ov-table,.ov-layer-row,.ov-mapping,.ov-map-row,.ov-segment-row,.ov-segment-row div,.ov-risk-grid,.ov-risk-grid article,.ov-glossary,.ov-glossary>div,.ov-roadmap,.ov-roadmap-item { border-color: var(--ov-line); border-radius: 2px; background: transparent; box-shadow: none; }
+.ov-diagram,.ov-callout,.ov-formula,.ov-table,.ov-layer-row,.ov-mapping { border: 1px solid var(--ov-line); background: rgba(255,255,255,.02); }
+.ov-note { border-radius: 2px; background: rgba(201,189,240,.07); }
+.ov-table th { background: rgba(255,255,255,.06); color: rgba(255,255,255,.59); }
+.ov-table td,.ov-diagram-details li { border-color: var(--ov-line); }
+.ov-footer { border-color: var(--ov-line); color: rgba(255,255,255,.5); }
+.overview-page :is(h1,h2,h3,h4,p,a,button,th,td,label,input,select,textarea) { font-family: "InterVar",Inter,"Helvetica Neue",Arial,sans-serif; }

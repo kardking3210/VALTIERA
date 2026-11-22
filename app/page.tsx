@@ -2,24 +2,17 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowDown, ArrowRight, ArrowUpRight, Check, X } from "lucide-react";
+import { ArrowDown, ArrowRight, ArrowUpRight, Check, Menu, X } from "lucide-react";
 import styles from "./landing.module.css";
 
-const heroVideo = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260423_161253_c72b1869-400f-45ed-ac0c-52f68c2ed5bd.mp4";
+const heroVideo = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260511_230229_7c9bc431-46cf-489a-948d-e8144d8eb5d4.mp4";
 const practiceVideo = "https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260423_183428_ab5e672a-f608-4dcb-b319-f3e040f02e2d.mp4";
 const collectiveImage = "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260423_164207_f243351d-ed59-48ec-83a0-a5e996bdbe3c.png&w=1280&q=85";
 const heroPoster = "https://images.higgs.ai/?default=1&output=webp&url=https%3A%2F%2Fd8j0ntlcm91z4.cloudfront.net%2Fuser_38xzZboKViGWJOttwIXH07lWA1P%2Fhf_20260430_115327_3f256636-9e63-4885-8d0b-09317dc2b0a5.png&w=1280&q=85";
-const marketNames = ["Bitcoin", "Ethereum", "Solana", "NVIDIA", "BlackRock", "Coinbase", "Chainlink"];
-const ecosystemNames = ["Binance", "Ethereum", "Polygon", "Solana", "Chainlink", "Coinbase", "Uniswap", "Aave"];
 const interests = ["Platform User", "Investor Interest", "Research & Technology", "Quantitative Research & Technology", "Strategic Partnership", "General Interest"];
 
 function BrandLogo() {
   return <Image className={styles.brandLogo} src="/images/valtiera-logo.png" alt="" width={48} height={48}/>;
-}
-function Marquee({ items, className = "", duration }: { items: string[]; className?: string; duration: string }) {
-  return <div className={`${styles.marquee} ${className}`} style={{ "--marquee-duration": duration } as React.CSSProperties}>
-    <div className={styles.marqueeTrack}><div className={styles.marqueeGroup}>{items.map((item, index) => <span key={`${item}-${index}`}>{item}</span>)}</div><div className={styles.marqueeGroup} aria-hidden="true">{items.map((item, index) => <span key={`${item}-copy-${index}`}>{item}</span>)}</div></div>
-  </div>;
 }
 function ExploreLink({ href = "/app", children }: { href?: string; children: React.ReactNode }) {
   return <Link className={styles.exploreLink} href={href}>{children}<span><ArrowRight size={17}/></span></Link>;
@@ -47,32 +40,27 @@ function DeferredVideo({ src, poster, className, onError, ariaHidden = false }: 
 
 export default function Home() {
   const [modal, setModal] = useState(false);
-  const [heroVideoFailed, setHeroVideoFailed] = useState(false);
   const [practiceVideoFailed, setPracticeVideoFailed] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   return <main className={styles.page}>
     <section id="top" className={styles.heroSection}>
+      <video className={styles.heroVideo} autoPlay muted loop playsInline preload="auto" poster={heroPoster} aria-hidden="true"><source src={heroVideo} type="video/mp4"/></video>
+      <div className={styles.heroOverlay} aria-hidden="true"/>
       <header className={styles.navbar}>
         <Link className={styles.brand} href="#top" aria-label="VALTIERA home"><BrandLogo/><span>VALTIERA</span></Link>
-        <nav className={styles.navLinks} aria-label="Main navigation">
-          <Link href="#ecosystem">Network</Link><Link href="#information">Platform</Link><Link href="/overview">Overview</Link><Link href="/app/quant">Research</Link><Link href="/app/community">Community</Link><Link href="/app/academy">Academy</Link>
+        <nav className={`${styles.navLinks} liquid-glass`} aria-label="Main navigation">
+          <Link href="#information">Platform</Link><Link href="/overview">Overview</Link><Link href="/app/quant">Research</Link><Link href="/app/community">Community</Link><Link href="/app/academy">Academy</Link>
         </nav>
-        <Link className={styles.navCta} href="/app">Explore VALTIERA <ArrowUpRight size={15}/></Link>
+        <div className={styles.navActions}><Link className={`${styles.navCta} liquid-glass`} href="/app">Explore platform <ArrowUpRight size={15}/></Link><button className={`${styles.menuButton} liquid-glass`} aria-label={menuOpen?"Close navigation":"Open navigation"} aria-expanded={menuOpen} onClick={()=>setMenuOpen(v=>!v)}>{menuOpen?<X size={19}/>:<Menu size={19}/>}</button></div>
       </header>
-      <div className={styles.heroShell}>
-        <div className={styles.heroCard} style={{ backgroundImage: `linear-gradient(90deg,rgba(8,13,11,.58),rgba(8,13,11,.13) 78%),url("${heroPoster}")` }}>
-          {!heroVideoFailed && <video className={styles.heroVideo} autoPlay muted loop playsInline preload="auto" poster={heroPoster} aria-hidden="true" onError={() => setHeroVideoFailed(true)}><source src={heroVideo} type="video/mp4"/></video>}
-          <div className={styles.heroOverlay}/>
-          <div className={styles.heroContent}>
-            <div className={styles.eyebrow}><i/> INTELLIGENCE · RESEARCH · COMMUNITY</div>
-            <h1>Intelligence<br/>Behind Capital.</h1>
-            <p>Where collective intelligence meets quantitative research. Discover opportunities, challenge market assumptions and explore the signals shaping tomorrow&apos;s financial markets.</p>
-            <ExploreLink>Explore the Platform</ExploreLink>
-            <Marquee items={marketNames} className={styles.heroMarquee} duration="22s"/>
-            <small className={styles.editorialNote}>Illustrative ecosystem references. No affiliation or endorsement is implied.</small>
-          </div>
-          <div className={styles.heroMeta}><span>VALTIERA · FINANCIAL INTELLIGENCE</span><span>01 / 04</span></div>
-        </div>
+      {menuOpen&&<nav className={`${styles.mobileMenu} liquid-glass`} aria-label="Mobile navigation"><Link onClick={()=>setMenuOpen(false)} href="#information">Platform</Link><Link onClick={()=>setMenuOpen(false)} href="/overview">Overview</Link><Link onClick={()=>setMenuOpen(false)} href="/app/quant">Research</Link><Link onClick={()=>setMenuOpen(false)} href="/app/community">Community</Link><Link onClick={()=>setMenuOpen(false)} href="/app/academy">Academy</Link></nav>}
+      <div className={styles.heroContent}>
+        <div className={styles.eyebrow}><i/> FINANCIAL INTELLIGENCE · VALTIERA</div>
+        <h1>Intelligence<br/><span>Behind Capital.</span></h1>
+        <p>Where collective intelligence meets quantitative research. Explore financial markets, challenge assumptions and see the forces shaping capital.</p>
+        <div className={styles.heroActions}><Link className={`${styles.heroPrimary} liquid-glass`} href="/app">Explore the platform <ArrowUpRight size={17}/></Link><Link className={styles.heroSecondary} href="/app/quant">Discover our research <ArrowRight size={16}/></Link></div>
       </div>
+      <div className={styles.heroFoot}><span>COLLECTIVE INTELLIGENCE <i/> QUANTITATIVE RESEARCH <i/> MARKET CONTEXT</span><a href="#information" aria-label="Scroll to explore the platform">SCROLL TO EXPLORE <ArrowDown size={14}/></a></div>
     </section>
 
     <section id="information" className={styles.information}>
@@ -133,10 +121,10 @@ export default function Home() {
       </div>
     </section>
 
-    <section id="ecosystem" className={styles.ecosystem}>
+    <section id="ecosystem" className={styles.ecosystem} aria-label="VALTIERA research disciplines">
       <div className={`${styles.container} ${styles.ecosystemGrid}`}>
-        <div><span className={styles.sectionIndex}>02 / CONNECTED REFERENCES</span><h2>Our<br/><em>Ecosystem.</em></h2><p>Built around an ecosystem of financial data, research and technology.</p></div>
-        <div className={styles.ecosystemContent}><Marquee items={ecosystemNames} duration="30s"/><p className={styles.disclaimer}>Illustrative technology and market references only. These organisations are not represented as VALTIERA investors, sponsors or partners.</p></div>
+        <div><span className={styles.sectionIndex}>A CONNECTED PERSPECTIVE</span><h2>Markets,<br/><em>in context.</em></h2><p>One workspace for the ideas, evidence and analysis behind financial decisions.</p></div>
+        <div className={styles.disciplineGrid}><div><span>01</span><b>Community insight</b><small>Debate and compare independent perspectives.</small></div><div><span>02</span><b>Quantitative research</b><small>Evaluate data, methods, uncertainty and risk.</small></div><div><span>03</span><b>Market intelligence</b><small>Explore supported assets with market charts.</small></div></div>
       </div>
     </section>
 
@@ -170,4 +158,3 @@ function RegistrationModal({close}:{close:()=>void}) {
   {step===3&&<div className="review"><div><span>NAME</span><b>{form.full_name}</b></div><div><span>EMAIL</span><b>{form.email}</b></div><div><span>COUNTRY</span><b>{form.country}</b></div><div><span>AREA OF INTEREST</span><b>{form.interest_category}</b></div><div className="review-note">This is an expression of interest only, not an offer of securities, invitation to deposit funds or commitment to provide investment services.</div><label className="check-label"><input type="checkbox" checked={form.consent_privacy} onChange={e=>set("consent_privacy",e.target.checked)}/><span>I agree to the <a href="/privacy" target="_blank">Privacy Policy</a> and consent to VALTIERA processing my information to respond to my enquiry. <em>*</em></span></label><label className="check-label optional"><input type="checkbox" checked={form.consent_marketing} onChange={e=>set("consent_marketing",e.target.checked)}/><span>I’d like to receive occasional updates about VALTIERA. (Optional)</span></label></div>}
   {error&&<p className="form-error" role="alert">{error}</p>}<div className="form-actions">{step>1?<button className="back" onClick={()=>{setError("");setStep(s=>s-1)}}>Back</button>:<span/>}{step<3?<button className="button dark" onClick={next}>Continue <ArrowRight size={15}/></button>:<button className="button dark" disabled={busy} onClick={submit}>{busy?"Submitting…":"Submit registration"} <ArrowRight size={15}/></button>}</div></>}</div></div>
 }
-

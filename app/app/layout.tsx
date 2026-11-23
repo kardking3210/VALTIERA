@@ -27,6 +27,7 @@ import { StorageCleanup } from "./StorageCleanup";
 import "./terminal.css";
 import "./app-theme.css";
 import "./orbit-theme.css";
+import "./product-ui.css";
 
 const sections = [
   {
@@ -67,10 +68,12 @@ const sections = [
 export default function AppLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const activePage = sections.flatMap((section) => section.items).find((item) => item.href === "/app" ? pathname === "/app" : pathname === item.href || pathname.startsWith(`${item.href}/`))?.label ?? "Financial Intelligence";
 
   return (
     <div className="terminal">
       <StorageCleanup />
+      {mobileNavOpen && <button className="terminal-nav-scrim" type="button" aria-label="Close application navigation" onClick={() => setMobileNavOpen(false)} />}
       <aside className="terminal-sidebar">
         <div className="terminal-mobile-header">
           <Link className="terminal-brand" href="/" aria-label="VALTIERA home">
@@ -104,7 +107,7 @@ export default function AppLayout({ children }: { children: ReactNode }) {
       </aside>
       <main className="terminal-main">
         <header className="terminal-topbar">
-          <div className="terminal-breadcrumb"><Compass size={15} /> VALTIERA <span>/</span> FINANCIAL INTELLIGENCE</div>
+          <div className="terminal-breadcrumb"><Compass size={17} /> VALTIERA <span>/</span> <b>{activePage}</b></div>
           <TerminalAccountControls />
         </header>
         <div className="terminal-content">{children}</div>
@@ -169,3 +172,4 @@ function TerminalAccountControls() {
     {userId ? <button className="terminal-signout" type="button" onClick={() => void signOut()}><LogOut size={14}/><span>Sign out</span></button> : <Link className="terminal-register-link" href="/register">Create account</Link>}
   </div>;
 }
+

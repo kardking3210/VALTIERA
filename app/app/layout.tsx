@@ -24,10 +24,7 @@ import {
 import { useEffect, useState, type ReactNode } from "react";
 import { supabaseBrowser } from "@/lib/supabase-browser";
 import { StorageCleanup } from "./StorageCleanup";
-import "./terminal.css";
-import "./app-theme.css";
-import "./orbit-theme.css";
-import "./product-ui.css";
+import "./app-design.css";
 
 const sections = [
   {

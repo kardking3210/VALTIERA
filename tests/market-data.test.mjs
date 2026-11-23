@@ -97,6 +97,16 @@ test("uses the successful historical cache for the same instrument, interval and
   assert.equal(calls, 1);
 });
 
+test("separates cache entries when configured provider routing changes", async () => {
+  let calls = 0;
+  const cache = new Map();
+  const fetchImpl = async () => { calls++; return response(twelveFixture); };
+  const now = () => new Date("2025-01-06T12:00:00Z");
+  await getHistoricalBars(request, { env: { TWELVE_DATA_API_KEY: "fixture-primary" }, fetchImpl, cache, now });
+  await getHistoricalBars(request, { env: { TWELVE_DATA_API_KEY: "fixture-primary", ALPHA_VANTAGE_API_KEY: "fixture-fallback" }, fetchImpl, cache, now });
+  assert.equal(calls, 2);
+});
+
 test("does not cache or return fabricated data when no provider is configured", async () => {
   await assert.rejects(() => getHistoricalBars(request, { env: {}, cache: new Map(), fetchImpl: async () => { throw new Error("should not fetch"); } }), (error) => {
     assert.ok(error instanceof MarketDataError);

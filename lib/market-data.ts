@@ -94,9 +94,11 @@ export async function getHistoricalBars(request: HistoricalRequest, dependencies
   const instrument=INSTRUMENTS[request.instrumentId]; if(!instrument)throw new Error(`Unsupported instrument: ${request.instrumentId}`);
   if(request.interval&&request.interval!=="1d")throw new Error("Only the 1d interval is currently supported by this historical model feed.");
   if(!Number.isInteger(request.lookback)||request.lookback<1||request.lookback>500)throw new Error("lookback must be an integer between 1 and 500.");
-  const now=dependencies.now?.()??new Date(); const range=dateRange(request,now); const cache=dependencies.cache??CACHE; const key=[instrument.id,"1d",range.startDate,range.endDate,request.lookback].join("|");
+  const now=dependencies.now?.()??new Date(); const range=dateRange(request,now); const cache=dependencies.cache??CACHE; const fetchImpl=dependencies.fetchImpl??fetch;const env=dependencies.env??process.env;const providers:ProviderName[]=instrument.assetClass==="crypto"?["Binance","Twelve Data"]:["Twelve Data","Alpha Vantage"];
+  const configuredProviders=providers.filter((provider)=>provider==="Binance"||(provider==="Twelve Data"?Boolean(env.TWELVE_DATA_API_KEY):Boolean(env.ALPHA_VANTAGE_API_KEY)));
+  const key=[instrument.id,configuredProviders.join(",")||"unconfigured","1d",range.startDate,range.endDate,request.lookback].join("|");
   const hit=cache.get(key);if(hit&&hit.expiresAt>now.getTime())return{...hit.result,cache:"hit"};if(hit)cache.delete(key);
-  const fetchImpl=dependencies.fetchImpl??fetch;const env=dependencies.env??process.env;const issues:ProviderIssue[]=[];const providers:ProviderName[]=instrument.assetClass==="crypto"?["Binance","Twelve Data"]:["Twelve Data","Alpha Vantage"];
+  const issues:ProviderIssue[]=[];
   for(const provider of providers) {
     const apiKey=provider==="Twelve Data"?env.TWELVE_DATA_API_KEY:provider==="Alpha Vantage"?env.ALPHA_VANTAGE_API_KEY:undefined;
     if(provider!=="Binance"&&!apiKey){issues.push({provider,category:"not_configured",detail:`${provider} API key is not configured`});continue;}

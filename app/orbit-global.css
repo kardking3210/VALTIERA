@@ -12,7 +12,7 @@
   --glass-bg: rgba(255,255,255,.12);
   --glass-line: rgba(255,255,255,.15);
   --r-btn: calc(10 * var(--u));
-  --orbit-purple: #c9bdf0;
+  --orbit-purple: #ff8a73;
   color-scheme: dark;
 }
 @supports(height:100dvh) {
@@ -20,7 +20,7 @@
 }
 html { scroll-behavior: smooth; scroll-padding-top: 72px; }
 body { background: #050505 !important; color: #fff; font-family: "InterVar",Inter,"Helvetica Neue",Arial,system-ui,sans-serif; font-optical-sizing: auto; }
-::selection { background: rgba(201,189,240,.38); color: #fff; }
+::selection { background: rgba(255,138,115,.38); color: #fff; }
 button,a,input,select,textarea { font-family: inherit; }
 
 .auth-page,.admin-shell { min-height: 100vh; background: #050505; color: #fff; }

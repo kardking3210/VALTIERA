@@ -1,6 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { getHistoricalBars, MarketDataError } from "./market-data.ts";
+import { getHistoricalBars, MarketDataError } from "../lib/market-data.ts";
 
 // Clearly labelled provider response fixtures. These are contract tests, not live-market integration tests.
 const twelveFixture = { values: [
